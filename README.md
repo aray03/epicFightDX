@@ -11,3 +11,4 @@
 - Squash Bugs
 - Create random encounters that function correctly
 - Spread it across multiple files because rn it's gross
+- Mess around with github more
