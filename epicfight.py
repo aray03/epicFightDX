@@ -1,7 +1,6 @@
 #Created by Aidan Andersen
 import os
 import random
-import battle
 
 os.system('cls')
 
