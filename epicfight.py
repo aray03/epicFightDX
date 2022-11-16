@@ -1,6 +1,7 @@
 #Created by Aidan Andersen
 import os
 import random
+from bat import *
 
 os.system('cls')
 
@@ -43,17 +44,23 @@ class Items:
         self.effect = effect
 
 #This portion of the code is the stats/Moves for all of the characters
-BaseBadStats = Fighterstats("Badguy", 200, 15, 10, 30, 3, 0)
-BaseGoodStats = Fighterstats("Raymond", 200, 15, 10, 30, 3, 1)
-rayheal = SpecialMoves("Health Snap", 100, 'heal', 3)
-GoodSpecial=[rayheal]
-BadSpecial=[]
-itemlist=[]
-turnender=[]
-crackers = Items("Crackers", "Yummy crackers that restore 10 MP", 10, 'mpheal')
-fruitsnacks = Items("Fruitsnacks", "Tasty bundles of pure sugar that heal 150 HP", 150, 'heal')
-itemlist= [crackers, fruitsnacks]
 
+#Base stats for Good Side
+BaseGoodStats = Fighterstats("Raymond", 200, 15, 10, 30, 3, 0)
+GoodSpecial=[SpecialMoves("Health Snap", 100, 'heal', 3)]
+BaseGoodStats.spc = len(GoodSpecial)
+
+#Base stats for opposing side
+BaseBadStats = Fighterstats("Badguy", 200, 15, 10, 30, 3, 0)
+BadSpecial=[SpecialMoves("Epic Shredder!", BaseBadStats.power, 'hurt', 4)]
+BaseBadStats.spc = len(BadSpecial)
+
+#Creates an inverntory for items
+itemList=[]
+itemList.append(Items("Crackers", "Yummy crackers that restore 10 MP", 10, 'mpheal'))
+itemList.append(Items("Fruitsnacks", "Tasty bundles of pure sugar that heal 150 HP", 150, 'heal'))
+
+turnender=[]
 
 while True:
     try:
@@ -62,55 +69,8 @@ while True:
         extract.close()
         break
     except FileNotFoundError:
-        os.system('cls')
-        error=input('No Save Data, Creating Files')
-        extract = open('epicfightdata.txt', "w+")
-        extract.write('BaseGoodStats.txt\n')
-        extract.write('BaseBadStats.txt\n')
-        extract.write('items.txt')
-        extract.close()
-
-        extract = open('BaseGoodStats.txt',"w+")
-        extract.write(BaseGoodStats.name+', ')
-        extract.write(str(BaseGoodStats.hp)+', ')
-        extract.write(str(BaseGoodStats.mp)+', ')
-        extract.write(str(BaseGoodStats.speed)+', ')
-        extract.write(str(BaseGoodStats.power)+', ')
-        extract.write(str(BaseGoodStats.defense)+', ')
-        extract.write(str(BaseGoodStats.spc)+'\n')
-        extract.write(str(rayheal.movename)+', ')
-        extract.write(str(rayheal.damage)+', ')
-        extract.write(str(rayheal.effect)+', ')
-        extract.write(str(rayheal.mpcost))
-        extract.close()
-
-        BaseBadStats = Fighterstats("Johnny", 500, 15, 10, 40, 6, 1)
-        BadSpecial = SpecialMoves("Epic Shredder!", BaseBadStats.power, 'hurt', 4)
-        GoodSpecial=[rayheal]
-        extract = open('BaseBadStats.txt',"w+")
-        extract.write(BaseBadStats.name+', ')
-        extract.write(str(BaseBadStats.hp)+', ')
-        extract.write(str(BaseBadStats.mp)+', ')
-        extract.write(str(BaseBadStats.speed)+', ')
-        extract.write(str(BaseBadStats.power)+', ')
-        extract.write(str(BaseBadStats.defense)+', ')
-        extract.write(str(BaseBadStats.spc)+'\n')
-        extract.write(str(BadSpecial.movename)+', ')
-        extract.write(str(BadSpecial.damage)+', ')
-        extract.write(str(BadSpecial.effect)+', ')
-        extract.write(str(BadSpecial.mpcost))
-        extract.close()
-
-        extract = open('items.txt',"w+")
-        extract.write('\n')
-        for p in range(len(itemlist)):
-            extract = open('items.txt',"a+")
-            extract.write(itemlist[p].itemname+', ')
-            extract.write(itemlist[p].description+', ')
-            extract.write(str(itemlist[p].damage)+', ')
-            extract.write(itemlist[p].effect+' \n')
-            extract.close()
-        print('Files Created')
+        #Creates base save data
+        noSaveData(BaseGoodStats, GoodSpecial, BaseBadStats, BadSpecial, itemList)
     else:
         pass
 custominput=input("Would you like to select different files for the battle? Y/N: ").upper()
@@ -256,7 +216,7 @@ BadSpecial = [BadSpecial]
 #There are all the items used in the game
 insert = open(grab3, 'r')
 stall = insert.readline()
-itemlist=[]
+itemList=[]
 for m in range(2):
     iteminsert = []
     insertstuff = insert.readline().split(',')
@@ -265,7 +225,7 @@ for m in range(2):
     iteminsert.append(int(insertstuff[2]))
     iteminsert.append(insertstuff[3].strip().replace('\n',''))
     iteminsert = Items(iteminsert[0],iteminsert[1],iteminsert[2],iteminsert[3])
-    itemlist.append(iteminsert)
+    itemList.append(iteminsert)
 #This part of the code is what the player does during the duration of their turn
 
 #This is the fight code
@@ -319,32 +279,32 @@ def items3(GoodSide, BadSide, turn):
     c=1
     while c == 1:
         os.system('cls')
-        for p in range(len(itemlist)):
-            print(str(p+1)+':', itemlist[p].itemname, '-', itemlist[p].description)
-        print(str(len(itemlist)+1)+": <-- Back")
+        for p in range(len(itemList)):
+            print(str(p+1)+':', itemList[p].itemname, '-', itemList[p].description)
+        print(str(len(itemList)+1)+": <-- Back")
         itemchoice=input("\nPick an item: ")
-        if itemchoice == str(len(itemlist)+1):
+        if itemchoice == str(len(itemList)+1):
             break
-        elif itemchoice > str(len(itemlist)+1):
+        elif itemchoice > str(len(itemList)+1):
             pass
         elif itemchoice <= str(0):
             pass
         else:
             os.system('cls')
             #This part of the code controls how the various items work
-            if itemlist[int(itemchoice)-1].effect == 'heal':
-                print('The', itemlist[int(itemchoice)-1].itemname, 'healed', itemlist[int(itemchoice)-1].damage, "HP.")
-                GoodSide.hp += itemlist[int(itemchoice)-1].damage
-                itemlist.pop(p)
+            if itemList[int(itemchoice)-1].effect == 'heal':
+                print('The', itemList[int(itemchoice)-1].itemname, 'healed', itemList[int(itemchoice)-1].damage, "HP.")
+                GoodSide.hp += itemList[int(itemchoice)-1].damage
+                itemList.pop(p)
                 turnender.append('END')
 
-            elif itemlist[int(itemchoice)-1].effect == 'mpheal':
-                print('The', itemlist[int(itemchoice)-1].itemname, 'restored', itemlist[int(itemchoice)-1].damage, "MP.")
-                GoodSide.mp += itemlist[int(itemchoice)-1].damage
-                itemlist.pop(p)
+            elif itemList[int(itemchoice)-1].effect == 'mpheal':
+                print('The', itemList[int(itemchoice)-1].itemname, 'restored', itemList[int(itemchoice)-1].damage, "MP.")
+                GoodSide.mp += itemList[int(itemchoice)-1].damage
+                itemList.pop(p)
                 turnender.append('END')
 
-            elif itemlist[int(itemchoice)-1].effect == 'damage':
+            elif itemList[int(itemchoice)-1].effect == 'damage':
                 print("TRY LATER")
             food=input('')
             turn='b'
@@ -381,6 +341,7 @@ def battle(GoodSide, BadSide):
                 print("2: Special")
                 print("3: Item")
                 print("4: Defend")
+                printPerson(GoodSide)
                 print("\nHP:", GoodSide.hp,"       ", BadSide.name+":",BadSide.hp)
                 print("MP:", GoodSide.mp)
                 optionselect=input("\nChoose: ").capitalize()
