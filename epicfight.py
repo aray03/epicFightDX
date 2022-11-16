@@ -1,7 +1,8 @@
-#Created by Aidan Andersen
+#Created by aray03
 import os
 import random
 from bat import *
+import keyboard
 
 os.system('cls')
 
@@ -17,7 +18,7 @@ print("EEEEEEEEEEEEEEE   PPPPP             IIIIIIIIIIIIIII   CCCCCCCCCCCCCCC    
 print("EEEEEEEEEEEEEEE   PPPPP             IIIIIIIIIIIIIII   CCCCCCCCCCCCCCC          RRRRR     RRRRR   PPPPP              GGGGGGGGGGGGG ")
 
 
-print("                                                                 By: Aidan Andersen")
+print("                                                                    By: aray03")
 stall=input("                                                              Press Enter To Continue ")
 
 #This part of the code creates a class for all of the fighter values, special moves and items.
@@ -67,89 +68,32 @@ while True:
         os.system('cls')
         extract = open('epicfightdata.txt', 'r')
         extract.close()
+        extract = open('badStat.txt', 'r')
+        extract.close()
+        extract = open('goodStat.txt', 'r')
+        extract.close()
+        extract = open('items.txt', 'r')
+        extract.close()
         break
     except FileNotFoundError:
         #Creates base save data
         noSaveData(BaseGoodStats, GoodSpecial, BaseBadStats, BadSpecial, itemList)
     else:
         pass
-custominput=input("Would you like to select different files for the battle? Y/N: ").upper()
-#This grabs the data from the various files
+
+#Opens and gets the files listed in epicfightdata
 maininsert = open('epicfightdata.txt', 'r')
 grab1= maininsert.readline()
 grab2= maininsert.readline()
 grab3= maininsert.readline()
 maininsert.close()
-if custominput == "Y":
-    while custominput == "Y":
-        BaseGoodStats=[]
-        GoodSpecial=[]
-        #Raymond Stats/Moves
-        os.system('cls')
-        print("What file do you want to change")
-        print("1: GoodSide File")
-        print("2: BadSide File")
-        print("3: Item File")
-        print("4: Check File Names")
-        print("5: Done")
-        filechanger= input("Choose: ").strip()
-        if filechanger == '1':
-            while True:
-                try:
-                    os.system('cls')
-                    grab1=input("What is the file of the GoodSide called?: ")
-                    test = open(grab1, 'r')
-                    test.close()
-                    break
-                except FileNotFoundError:
-                    os.system('cls')
-                    error=input('Error file not found')
-        elif filechanger == '2':
-            while True:
-                try:
-                    os.system('cls')
-                    grab2=input("What is the file of the BadSide called?: ")
-                    test = open(grab2, 'r')
-                    test.close()
-                    break
-                except FileNotFoundError:
-                    os.system('cls')
-                    error=input('Error file not found')
-        elif filechanger == '3':
-            while True:
-                try:
-                    os.system('cls')
-                    grab3=input("What is the Item file called?: ")
-                    test = open(grab3, 'r')
-                    test.close()
-                    break
-                except FileNotFoundError:
-                    os.system('cls')
-                    error=input('Error file not found')
-        elif filechanger == '4':
-            #This is where the rest of the code will go to save and stuff
-            os.system('cls')
-            grab1=grab1.replace('\n','')
-            grab2=grab2.replace('\n','')
-            grab3=grab3.replace('\n','')
-            grab1=grab1.replace('.txt','.txt\n')
-            grab2=grab2.replace('.txt','.txt\n')
-            grab3=grab3.replace('.txt','.txt\n')
-            print(grab1,grab2,grab3)
-            stall=input("")
-        elif filechanger == '5':
-            #This streamline all the files to be formatted the same
-            os.system('cls')
-            grab1=grab1.replace('\n','')
-            grab2=grab2.replace('\n','')
-            grab3=grab3.replace('\n','')
-            grab1=grab1.replace('.txt','.txt\n')
-            grab2=grab2.replace('.txt','.txt\n')
-            grab3=grab3.replace('.txt','.txt\n')
-            break
-        else:
-            pass
 
+gameEditor(grab1, grab2, grab3)
+
+
+#TODO Note I honestly don't know what this part of the code does, it might remove new lines but no idea...
+#After further examination it seems to be parsing the file and converting
+#What is in the file is converted to usable stuff
 while True:
     try:
         maininsert = open('epicfightdata.txt', 'w+')
@@ -226,6 +170,8 @@ for m in range(2):
     iteminsert.append(insertstuff[3].strip().replace('\n',''))
     iteminsert = Items(iteminsert[0],iteminsert[1],iteminsert[2],iteminsert[3])
     itemList.append(iteminsert)
+    
+#TODO this is when the custom file outputs end.
 #This part of the code is what the player does during the duration of their turn
 
 #This is the fight code
@@ -341,7 +287,7 @@ def battle(GoodSide, BadSide):
                 print("2: Special")
                 print("3: Item")
                 print("4: Defend")
-                printPerson(GoodSide)
+                
                 print("\nHP:", GoodSide.hp,"       ", BadSide.name+":",BadSide.hp)
                 print("MP:", GoodSide.mp)
                 optionselect=input("\nChoose: ").capitalize()
@@ -394,19 +340,19 @@ def battle(GoodSide, BadSide):
             GoodSide.defense = BaseGoodStats.defense
             turn='g'
 
-while True:
-    try:
-        os.system('cls')
-        MG=input('How many battles do you want to have?: ')
-        if MG == '':
-            MG=1
-        MG=int(MG)
-        break
-    except ValueError:
-        os.system('cls')
-        error=input('Error! Not a number')
+#while True:
+#    try:
+#        os.system('cls')
+#        MG=input('How many battles do you want to have?: ')
+#        if MG == '':
+#           MG=1
+#        MG=int(MG)
+#       break
+#    except ValueError:
+#        os.system('cls')
+#        error=input('Error! Not a number')
 Count=0
-for x in range(MG):
+for x in range(1):
     GoodSide=BaseGoodStats
     BadSide=BaseBadStats
     GoodSide = Fighterstats(GoodSide.name,GoodSide.hp,GoodSide.mp,GoodSide.speed,GoodSide.power,GoodSide.defense,GoodSide.spc)

@@ -72,3 +72,84 @@ def noSaveData(goodStat, goodSpecial, badStat, badSpecial, itemList):
         extract.write(itemList[p].effect+' \n')
         extract.close()
     print('Files Created')
+    
+    
+    
+    
+    
+    
+    
+def gameEditor(grab1, grab2, grab3):
+    custominput=input("Would you like to select different files for the battle? Y/N: ").upper()
+    #This grabs the data from the various files
+    
+    
+    if custominput == "Y":
+        while custominput == "Y":
+            BaseGoodStats=[]
+            GoodSpecial=[]
+            #Raymond Stats/Moves
+            os.system('cls')
+            print("What file do you want to change")
+            print("1: GoodSide File")
+            print("2: BadSide File")
+            print("3: Item File")
+            print("4: Check File Names")
+            print("5: Done")
+            filechanger= input("Choose: ").strip()
+            if filechanger == '1':
+                while True:
+                    try:
+                        os.system('cls')
+                        grab1=input("What is the file of the GoodSide called?: ")
+                        test = open(grab1, 'r')
+                        test.close()
+                        break
+                    except FileNotFoundError:
+                        os.system('cls')
+                        error=input('Error file not found')
+            elif filechanger == '2':
+                while True:
+                    try:
+                        os.system('cls')
+                        grab2=input("What is the file of the BadSide called?: ")
+                        test = open(grab2, 'r')
+                        test.close()
+                        break
+                    except FileNotFoundError:
+                        os.system('cls')
+                        error=input('Error file not found')
+            elif filechanger == '3':
+                while True:
+                    try:
+                        os.system('cls')
+                        grab3=input("What is the Item file called?: ")
+                        test = open(grab3, 'r')
+                        test.close()
+                        break
+                    except FileNotFoundError:
+                        os.system('cls')
+                        error=input('Error file not found')
+            elif filechanger == '4':
+                #This is where the rest of the code will go to save and stuff
+                os.system('cls')
+                grab1=grab1.replace('\n','')
+                grab2=grab2.replace('\n','')
+                grab3=grab3.replace('\n','')
+                grab1=grab1.replace('.txt','.txt\n')
+                grab2=grab2.replace('.txt','.txt\n')
+                grab3=grab3.replace('.txt','.txt\n')
+                print(grab1,grab2,grab3)
+                stall=input("")
+            elif filechanger == '5':
+                #This streamline all the files to be formatted the same
+                os.system('cls')
+                grab1=grab1.replace('\n','')
+                grab2=grab2.replace('\n','')
+                grab3=grab3.replace('\n','')
+                grab1=grab1.replace('.txt','.txt\n')
+                grab2=grab2.replace('.txt','.txt\n')
+                grab3=grab3.replace('.txt','.txt\n')
+                break
+            else:
+                pass
