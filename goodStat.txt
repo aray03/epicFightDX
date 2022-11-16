@@ -1,0 +1,2 @@
+Raymond, 200, 15, 10, 30, 3, 1
+Health Snap, 100, heal, 3

@@ -1,0 +1,3 @@
+goodStat.txt
+badStat.txt
+items.txt

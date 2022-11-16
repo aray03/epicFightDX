@@ -1,0 +1,2 @@
+Badguy, 200, 15, 10, 30, 3, 1
+Epic Shredder!, 30, hurt, 4
