@@ -1,5 +1,6 @@
 import os
 
+
 def printPerson(charStat):
     print("-------------------")
     print("Name: ", charStat.name)
@@ -153,3 +154,28 @@ def gameEditor(grab1, grab2, grab3):
                 break
             else:
                 pass
+
+def printFightMenu(currentPos):
+    os.system('cls')
+    
+    if (currentPos == 1):
+        print('> 1: Fight')
+        print("  2: Special")
+        print("  3: Item")
+        print("  4: Defend")
+    elif (currentPos == 2):
+        print('  1: Fight')
+        print("> 2: Special")
+        print("  3: Item")
+        print("  4: Defend")
+    elif (currentPos == 3):
+        print('  1: Fight')
+        print("  2: Special")
+        print("> 3: Item")
+        print("  4: Defend")
+    elif (currentPos == 4):
+        print('  1: Fight')
+        print("  2: Special")
+        print("  3: Item")
+        print("> 4: Defend")
+        

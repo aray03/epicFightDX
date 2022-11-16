@@ -3,6 +3,7 @@ import os
 import random
 from bat import *
 import keyboard
+import time
 
 os.system('cls')
 
@@ -261,6 +262,7 @@ def battle(GoodSide, BadSide):
         turn = 'g'
     else:
         turn = 'b'
+    currentPos = 1
     #Start game loop here
     gameloop=1
     while gameloop==1:
@@ -281,41 +283,58 @@ def battle(GoodSide, BadSide):
         #This is the code for the players fighting selection
         if turn == 'g':
             u = 1
+            
+            
             while u == 1:
                 os.system('cls')
-                print('1: Fight')
-                print("2: Special")
-                print("3: Item")
-                print("4: Defend")
                 
+                optionSelect = 0
+                printFightMenu(currentPos)
                 print("\nHP:", GoodSide.hp,"       ", BadSide.name+":",BadSide.hp)
                 print("MP:", GoodSide.mp)
-                optionselect=input("\nChoose: ").capitalize()
-                if optionselect == "1" or optionselect == "Fight":
+                time.sleep(.1)
+                while True:
+                    if keyboard.is_pressed('up'):
+                        if(currentPos <= 1):
+                            currentPos = 1
+                        else:
+                            currentPos -= 1
+                        break
+                    elif keyboard.is_pressed('down'):
+                        if(currentPos >= 4):
+                            currentPos = 4
+                        else:
+                            currentPos += 1
+                        break
+                    elif keyboard.is_pressed("enter") or keyboard.is_pressed("space"):
+                        optionSelect = currentPos
+                        break
+
+                time.sleep(.1)
+                if optionSelect == 1 or optionSelect == "Fight":
                     fight1(GoodSide, BadSide)
                     turn='b'
                     break
-                elif optionselect == "2" or optionselect == "Special":
+                elif optionSelect == 2 or optionSelect == "Special":
                     special2(GoodSide, BadSide)
                     if len(turnender) == 1:
                         turn='b'
                         break
-                elif optionselect == "3" or optionselect == "Item":
-                    print("Yay 3")
+                elif optionSelect == 3 or optionSelect == "Item":
                     items3(GoodSide, BadSide, turn)
                     if len(turnender) == 1:
                         turn = 'b'
                         break
                     break
-                elif optionselect == "4" or optionselect == "Defend":
+                elif optionSelect == 4 or optionSelect == "Defend":
                     os.system('cls')
                     GoodSide.defense = GoodSide.defense*3                   
                     stall=input("You defended! (Your defense tripled) ")
                     turn='b'
                     break
-                else:
-                    os.system('cls')
-                    stall= input("\n\n\nChoice invalid ")
+             #   else:
+              #      os.system('cls')
+              #      stall= input("\n\n\nChoice invalid ")
 
     #Code for the Badside's Turn
         elif turn == 'b':
